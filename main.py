@@ -6,7 +6,6 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36"
 }
 
-
 # ------------- 1. СОХРАНЕНИЕ НУЖНЫХ СТРАНИЦ (РАССКОМЕНТИРОВАТЬ КОД НИЖЕ ДЛЯ ОБНОВЛЕНИЯ ДАННЫХ) ---------------- #
 
 # for i in range(1, 6):
@@ -22,7 +21,7 @@ headers = {
 list_of_genre = []
 count = 0
 for i in range(1, 6):
-    with open(f'page_{i}.html', encoding= "utf-8") as file:
+    with open(f'page_{i}.html', encoding="utf-8") as file:
         src = file.read()
 
     soup = BeautifulSoup(src, 'lxml')
@@ -34,8 +33,5 @@ for i in range(1, 6):
         count += 1
         list_of_genre.append(genre_film)
         print(count, name_film, genre_film)
-    print(f"Получены данные со старницы {i}")
+    print(f"Получены данные со страницы {i}")
 print(len(list_of_genre))
-
-
-
