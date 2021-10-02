@@ -29,7 +29,7 @@ for i in range(1, 6):
     cards = soup.find_all(class_='selection-film-item-meta__link')
 
     for card in cards:
-        name_film = card.find(class_='selection-film-item-meta__name').text
+        # name_film = card.find(class_='selection-film-item-meta__name').text
         genre_film = card.find_all(class_='selection-film-item-meta__meta-additional-item')[1].text.split(', ')
         count += 1
         list_of_genre.append(genre_film)
