@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import matplotlib.pyplot as plt
 
 headers = {
     "accept": "*/*",
@@ -16,7 +17,7 @@ headers = {
 #     with open(f'page_{i}.html', 'w', encoding="utf-8") as file:
 #         file.write(src)
 
-# -------------- 2. СБОР НЕОБХОДИМЫХ ДАННЫХ ----------------- #
+# ----------------------------------------- 2. СБОР НЕОБХОДИМЫХ ДАННЫХ ------------------------------------------ #
 
 list_of_genre = []
 count = 0
@@ -29,9 +30,37 @@ for i in range(1, 6):
 
     for card in cards:
         name_film = card.find(class_='selection-film-item-meta__name').text
-        genre_film = card.find_all(class_='selection-film-item-meta__meta-additional-item')[1].text.split()
+        genre_film = card.find_all(class_='selection-film-item-meta__meta-additional-item')[1].text.split(', ')
         count += 1
         list_of_genre.append(genre_film)
-        print(count, name_film, genre_film)
+
     print(f"Получены данные со страницы {i}")
-print(len(list_of_genre))
+print(f"Итого получены данные из {len(list_of_genre)} фильмов.")
+
+# -------------------------------- 3. ПРЕОБРАЗОВАНИЕ ДАННЫХ О ЖАНРАХ В ОДИН СПИСОК --------------------------------- #
+
+res_list_of_genre = []
+for i in list_of_genre:
+    for j in i:
+        res_list_of_genre.append(j)
+
+# -------------------------------- 4. ПОДСЧЕТ ПОВТОРЕНИЙ ЖАНРОВ - СОЗДАНИЕ СЛОВАРЯ --------------------------------- #
+
+dict_count_genre = {i: res_list_of_genre.count(i) for i in res_list_of_genre}
+
+# --------------------------------------- 5. СОЗДАНИЕ СТОЛБЧАТОЙ ДИАГРАММЫ  ---------------------------------------- #
+
+plt.title('Статистика жанров')
+plt.xlabel("Название жанра")
+plt.ylabel("Кол-во повторений")
+plt.subplots_adjust(bottom=0.3)
+
+lists = dict_count_genre.items()
+x, y = zip(*lists)
+
+plt.bar(x, y)
+
+for i, val in enumerate(y):
+    plt.text(i, val, int(val), horizontalalignment='center', verticalalignment='bottom', fontdict={'fontweight': 500, 'size': 8})
+plt.gca().set_xticklabels(x, rotation=60, horizontalalignment='right')
+plt.show()
